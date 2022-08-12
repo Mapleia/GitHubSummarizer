@@ -1,10 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { ActionCreatorWithPayload } from '@reduxjs/toolkit'
 
 import TextField from '@mui/material/TextField'
 import Link from '@mui/material/Link'
-import ClickAwayListener from '@mui/material/ClickAwayListener'
 import EditIcon from '@mui/icons-material/Edit'
 import IconButton from '@mui/material/IconButton'
 
@@ -16,28 +15,38 @@ type ActivateProps = {
   activate: ActionCreatorWithPayload<boolean, string>
 }
 
-type SelectProps = {
-  select: (state: RootState) => RepoID['repo' | 'owner']
-}
-
-type UpdateProps = {
+interface InputLinkProps extends ActivateProps {
   update: ActionCreatorWithPayload<string, string>
+  select: (state: RootState) => RepoID['repo' | 'owner']
+  label: string
+  submit?: boolean
 }
 
-export function InputLink ({ activate, select, update }: (ActivateProps & SelectProps & UpdateProps)) {
+export function InputLink ({ label, activate, select, update, submit }: InputLinkProps) {
   const dispatch = useAppDispatch()
   const subject = useAppSelector(select)
-  const [input, setInput] = useState('')
+  const [input, setInput] = useState<string>(subject.payload)
 
+  useEffect(() => {
+    if (submit && input !== '') dispatch(update(input))
+  }, [submit])
+
+  if (!subject.active) return (<Link href="#">{subject.payload}</Link>)
   return (
-    <ClickAwayListener onClickAway={() => {
-      dispatch(activate(false))
-      dispatch(update(input))
-    }}>
-      {subject.active || !subject.payload
-        ? <TextField onChange={(e) => setInput(e.target.value)}/>
-        : <Link href="#">{subject.payload}</Link>}
-    </ClickAwayListener>
+    <TextField
+      label={label}
+      value={input}
+      required
+      size="small"
+      variant="outlined"
+      onBlur={() => {
+        if (input !== '') {
+          dispatch(update(input))
+        }
+        dispatch(activate(false))
+      }}
+      onChange={(e) => setInput(e.target.value)}
+      />
   )
 }
 
