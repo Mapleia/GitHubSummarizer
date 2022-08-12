@@ -1,13 +1,13 @@
 import { configureStore, ThunkAction, Action, Dispatch, AsyncThunk, AsyncThunkOptions, AsyncThunkPayloadCreator } from '@reduxjs/toolkit'
-import counterReducer from 'features/counter/counterSlice'
 import preferenceReducer from 'features/switchTheme/themeSlice'
 import repoReducer from 'features/repository/repositorySlice'
+import detailsReducer from 'features/details/detailsSlice'
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
     theme: preferenceReducer,
-    repo: repoReducer
+    repo: repoReducer,
+    details: detailsReducer
   }
 })
 

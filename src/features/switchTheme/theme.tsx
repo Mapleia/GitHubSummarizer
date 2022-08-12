@@ -1,5 +1,10 @@
+import React from 'react'
+
 import { ThemeOptions, Theme } from '@mui/material'
+
 import { createTheme } from '@mui/material/styles'
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
+import FavoriteIcon from '@mui/icons-material/Favorite'
 
 export const themeOptions: ThemeOptions = {
   palette: {
@@ -19,7 +24,7 @@ export const themeOptions: ThemeOptions = {
     h2: {
       fontFamily: 'Space Grotesk'
     },
-    h4: {
+    h3: {
       fontFamily: 'Space Grotesk'
     }
   },
@@ -27,6 +32,12 @@ export const themeOptions: ThemeOptions = {
     MuiTooltip: {
       styleOverrides: {
         arrow: true
+      }
+    },
+    MuiCheckbox: {
+      defaultProps: {
+        icon: <FavoriteBorderIcon />,
+        checkedIcon: <FavoriteIcon />
       }
     }
   }

@@ -7,24 +7,26 @@ import Breadcrumbs from '@mui/material/Breadcrumbs'
 import CssBaseline from '@mui/material/CssBaseline'
 import Toolbar from '@mui/material/Toolbar'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
+import Snackbar from '@mui/material/Snackbar'
 
 import { ThemeProvider } from '@mui/material/styles'
-import ThemeModeButton from 'features/switchTheme/button'
-import { selectTheme } from 'features/switchTheme/themeSlice'
+
 import {
   useAppDispatch,
   useAppSelector
 } from 'app/hooks'
+import ThemeModeButton from 'features/switchTheme/button'
+import { selectTheme } from 'features/switchTheme/themeSlice'
 import { InputLink, EditButton } from 'features/repository/inputLink'
 import {
   updateOwner, activateOwner, selectOwner,
   updateRepo, activateRepo, selectRepo,
-  selectIssues, fetchIssues, selectReady
+  selectIssues, fetchIssues, selectReady, selectError, clearError
 } from 'features/repository/repositorySlice'
-import octokit from 'features/repository/repoAPI'
 import DataTable from 'features/table/datagrid'
+import Carousel from 'features/favourites/carousel'
+import DetailModal from 'features/details/detailModal'
 
 function App () {
   const dispatch = useAppDispatch()
@@ -33,25 +35,11 @@ function App () {
   const owner = useAppSelector(selectOwner)
   const ready = useAppSelector(selectReady)
   const issues = useAppSelector(selectIssues)
+  const error = useAppSelector(selectError)
 
   useEffect(() => {
     dispatch(fetchIssues(undefined))
   }, [ready])
-
-  async function handleTryAPICall () {
-    try {
-      console.log(await octokit.rest.repos.getViews({ repo: 'LogCompareAPI', owner: 'Mapleia' }))
-      const config = {
-        repo: 'LogCompareAPI',
-        owner: 'Mapleia',
-        per_page: 40
-      }
-      const res = await octokit.paginate('GET /repos/{owner}/{repo}/issues', config)
-      console.info('issues', res)
-    } catch (err) {
-      console.error(err.message)
-    }
-  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -63,7 +51,7 @@ function App () {
       >
         <Toolbar sx={{ justifyContent: 'space-between', flexDirection: 'row' }}>
           <Typography
-            variant="h2"
+            variant="h3"
             noWrap
             component="a"
             href="/"
@@ -83,6 +71,12 @@ function App () {
         </Toolbar>
       </AppBar>
       <main>
+        <DetailModal />
+        <Snackbar
+          open={!!error}
+          message={error.message}
+          onClose={() => dispatch(clearError())}
+        />
         <Container sx={{ height: '100%', maxWidth: 'xl', my: 3 }}>
           <Breadcrumbs aria-label="breadcrumb">
             <Box sx={{ alignItems: 'flex-end', height: 'fit-content' }}>
@@ -105,11 +99,10 @@ function App () {
             </Box>
           </ Breadcrumbs>
           <Divider sx={{ my: 4 }} variant="middle" />
+          <Carousel />
+          <Divider sx={{ my: 4 }} variant="middle" />
           <DataTable rows={issues} />
         </Container>
-
-        <Button onClick={handleTryAPICall}>Try API Call</Button>
-
       </main>
     </ThemeProvider>
   )

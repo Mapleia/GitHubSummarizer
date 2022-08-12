@@ -8,8 +8,8 @@ import EditIcon from '@mui/icons-material/Edit'
 import IconButton from '@mui/material/IconButton'
 
 import { useAppDispatch, useAppSelector } from 'app/hooks'
-import { RepoID } from 'features/repository/repositorySlice'
 import { RootState } from 'app/store'
+import { RepoID } from 'features/repository/repositorySlice'
 
 type ActivateProps = {
   activate: ActionCreatorWithPayload<boolean, string>

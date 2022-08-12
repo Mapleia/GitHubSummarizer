@@ -23,9 +23,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
   - created date
   - updated date
   - amount of comments
-- User should be able to select an issue to view details
-- Selected issue can be bookmarked/unbookmarked
-- Bookmarked issues are presented separately
+- [x] User should be able to select an issue to view details
+- [x] Selected issue can be bookmarked/unbookmarked
+- [x] Bookmarked issues are presented separately
 
 ## Setup
 

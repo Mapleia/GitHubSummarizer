@@ -1,7 +1,8 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, PayloadAction, SerializedError } from '@reduxjs/toolkit'
 import octokit from 'features/repository/repoAPI'
 import { Endpoints } from '@octokit/types'
 import { RootState } from 'app/store'
+import { filterObjSet } from 'common/utils'
 
 type Subject = {
   payload: string,
@@ -21,27 +22,24 @@ export interface RepositoryState extends RepoID {
   status: 'loading' | 'failed' | 'idle',
   issues: GitHubIssue[],
   page: number,
-  error: any,
+  error?: SerializedError,
+  selected: GitHubIssue[],
 }
 
 const initialState: RepositoryState = {
   status: 'idle',
-  repo: { payload: 'IssuesTest', active: true },
-  owner: { payload: 'Mapleia', active: true },
+  repo: { payload: 'IssuesTest', active: false },
+  owner: { payload: 'Mapleia', active: false },
   issues: [],
   page: 1,
-  error: {}
-}
-
-interface RepoIDNonNull {
-  repo: { payload: string, active: boolean},
-  owner: { payload: string, active: boolean}
+  selected: []
 }
 
 export const fetchIssues = createAsyncThunk(
   '/repository/fetchIssues',
   async (_: any, { getState }) => {
-    const state = getState().repo as RepoIDNonNull
+    const { repo: state } = getState()
+
     const { repo, owner } = state
     console.info('Time to find issues')
 
@@ -61,7 +59,7 @@ export const fetchIssues = createAsyncThunk(
   },
   {
     condition: (_, api) => {
-      const check = api.getState().repo
+      const { repo: check } = api.getState()
       return check.repo.payload.length > 0 && check.owner.payload.length > 0
     }
   }
@@ -98,6 +96,12 @@ const repoSlice = createSlice({
       if (action.payload < 1) {
         state.page = 1
       }
+    },
+    updateSelected: (state, action: PayloadAction<GitHubIssue[]>) => {
+      state.selected = filterObjSet(state.selected, action.payload, 'id')
+    },
+    clearError: (state) => {
+      state.error = null
     }
   },
   extraReducers: (builder) => {
@@ -108,17 +112,21 @@ const repoSlice = createSlice({
       })
       .addCase(fetchIssues.fulfilled, (state, action) => {
         state.status = 'idle'
-        state.issues = action.payload
+        state.issues = filterObjSet(state.issues, action.payload, 'id')
       })
       .addCase(fetchIssues.rejected, (state, action) => {
         state.status = 'failed'
         state.error = action.error
-        state.issues = []
       })
   }
 })
 
-export const { activateRepo, activateOwner, updateRepo, updateOwner, nextPage, previousPage, goToPage } = repoSlice.actions
+export const {
+  activateRepo, updateRepo,
+  activateOwner, updateOwner,
+  nextPage, previousPage, goToPage,
+  updateSelected, clearError
+} = repoSlice.actions
 
 export const selectIssues = (state: RootState) => state.repo.issues
 export const selectPage = (state: RootState) => state.repo.page
@@ -126,5 +134,7 @@ export const selectOwner = (state: RootState) => state.repo.owner
 export const selectRepo = (state: RootState) => state.repo.repo
 export const selectReady = (state: RootState) => state.repo.repo.payload && state.repo.owner.payload
 export const selectStatus = (state: RootState) => state.repo.status
+export const selectSelected = (state: RootState) => state.repo.selected
+export const selectError = (state: RootState) => state.repo.error
 
 export default repoSlice.reducer
