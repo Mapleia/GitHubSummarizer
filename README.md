@@ -1,24 +1,47 @@
 # GitHub Summarizer
+
 A GitHub app to see the list of issues in one place.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) TS template.
 
 ## Useful links
+
 - https://docs.github.com/en/developers/apps/building-github-apps/creating-a-github-app
 - https://github.com/octokit/octokit.js
 - https://www.npmjs.com/package/@octokit/types
 - https://bareynol.github.io/mui-theme-creator
 
+# To Do List
+
+- [x] User should be able to provide GitHub organization and repository to fetch issues
+- [x] Pagination is used to navigate between pages
+- [x] Issues can be filtered by state:
+  - open
+  - closed
+  - all
+- [x] Issues can be sorted by:
+  - created date
+  - updated date
+  - amount of comments
+- User should be able to select an issue to view details
+- Selected issue can be bookmarked/unbookmarked
+- Bookmarked issues are presented separately
 
 ## Setup
 
 1. If you haven't already, install Node.js.
 2. Run
-    ```sh
-      npm i
-    ```
-3. Create a GitHub App to get GitHub API access, and fill in the .env variable with the private key value.
-4. Run the start command (`npm start`) to see the project in development mode.
+   ```sh
+     npm i
+   ```
+3. Create a GitHub App to get GitHub API access, and download the private key.
+4. Convert the .pem key to a .key and fill in the .env variable with it's content ([explained why here](https://github.com/gr2m/universal-github-app-jwt)).
+
+   ```sh
+     openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in private-key.pem -out private-key-pkcs8.key
+   ```
+
+5. Run the start command (`npm start`) to see the project in development mode.
 
 ## Library Notes
 
@@ -28,6 +51,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - `fontsource` is used to load in fonts
 
 ## Production Deployment
+
 To have a production ready deployment, simply build then host the Docker container.
 
 ```sh
@@ -39,6 +63,14 @@ docker build -t "GitHubSummarizer:$APP_TAG" .
 $env:APP_TAG="v0.1.0"
 docker build -t "GitHubSummarizer:$env:APP_TAG" .
 ```
+
+## Known Issues
+
+The webpack version (5) used to build the create-react-app does not polyfill anymore, thus variables like `process.env` is not available (not that it should be on a frontend app anyways...).
+
+To fix this, [this advice](https://stackoverflow.com/a/70982884) was heeded, in combination with [this advice](https://stackoverflow.com/a/63281179)
+
+Or, prefix the variable name with `REACT_APP_...`
 
 ## Available Scripts
 
@@ -67,6 +99,7 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.
 
 ### `npm run lint`
+
 Lints the application according to the `.eslintrc.js` configuration, and fixes any automatically fixable mistakes. This config enforces code style rules as well.
 
 ### `npm run eject`
