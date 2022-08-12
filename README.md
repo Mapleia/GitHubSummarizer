@@ -36,7 +36,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
      npm i
    ```
 4. Create private access token in GitHub -> Personal Settings -> Developer Settings.
-5. Set the key value to the environmental variable (see `.env.template`).
+5. Set the key value to the environmental variable (see `template.env`).
+    - You can use this file by making a copy of it and renaming it to `.env` and filling in the missing values.
 5. Run the start command (`npm start`) to see the project in development mode.
 
 ### Side notes
