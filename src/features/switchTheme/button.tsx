@@ -12,8 +12,8 @@ export default function SwitchButton () {
   const dispatch = useAppDispatch()
 
   return (
-    <IconButton sx={{ ml: 1 }} onClick={() => dispatch(toggleTheme())} color="inherit">
-      {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+    <IconButton sx={{ maxWidth: 'fit-content' }} onClick={() => dispatch(toggleTheme())} color="inherit">
+      {mode === 'dark' ? <Brightness4Icon /> : <Brightness7Icon />}
     </IconButton>
   )
 }

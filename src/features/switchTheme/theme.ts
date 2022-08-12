@@ -32,4 +32,12 @@ export const themeOptions: ThemeOptions = {
   }
 }
 
-export const theme: Theme = createTheme(themeOptions)
+const lightThemeOptions = { ...themeOptions }
+if (lightThemeOptions.palette) lightThemeOptions.palette.mode = 'light'
+
+export const lightTheme: Theme = createTheme(lightThemeOptions)
+
+const darkThemeOptions = { ...themeOptions }
+if (darkThemeOptions.palette) darkThemeOptions.palette.mode = 'dark'
+
+export const darkTheme: Theme = createTheme(darkThemeOptions)
