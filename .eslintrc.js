@@ -23,5 +23,6 @@ module.exports = {
     'jest-dom'
   ],
   rules: {
+    indent: ['error', 2]
   }
 }

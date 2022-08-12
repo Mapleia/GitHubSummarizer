@@ -30,10 +30,10 @@ const columns: GridColDef[] = [
     flex: 0.2,
     renderCell: (params) => {
       switch (params.value) {
-        case 'closed':
-          return <Chip color='secondary' variant="outlined" label="Closed"/>
-        default:
-          return <Chip color="primary" variant="outlined" label="Open" />
+      case 'closed':
+        return <Chip color='secondary' variant="outlined" label="Closed"/>
+      default:
+        return <Chip color="primary" variant="outlined" label="Open" />
       }
     },
     sortComparator: (v1, v2) => {

@@ -1,12 +1,5 @@
 import React, { useEffect } from 'react'
 
-// Font primarily used by MUI
-import '@fontsource/roboto/300.css'
-import '@fontsource/roboto/400.css'
-import '@fontsource/roboto/500.css'
-import '@fontsource/roboto/700.css'
-import '@fontsource/space-grotesk'
-
 import AppBar from '@mui/material/AppBar'
 import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
@@ -68,26 +61,26 @@ function App () {
         aria-label="top-navigation"
         enableColorOnDark
       >
-            <Toolbar sx={{ justifyContent: 'space-between', flexDirection: 'row' }}>
-            <Typography
-              variant="h2"
-              noWrap
-              component="a"
-              href="/"
-              sx={{
-                mr: 2,
-                maxWidth: 'fit-content',
-                display: { xs: 'none', md: 'flex' },
-                fontWeight: 700,
-                letterSpacing: '.3rem',
-                color: 'inherit',
-                textDecoration: 'none'
-              }}
-            >
+        <Toolbar sx={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+          <Typography
+            variant="h2"
+            noWrap
+            component="a"
+            href="/"
+            sx={{
+              mr: 2,
+              maxWidth: 'fit-content',
+              display: { xs: 'none', md: 'flex' },
+              fontWeight: 700,
+              letterSpacing: '.3rem',
+              color: 'inherit',
+              textDecoration: 'none'
+            }}
+          >
               ISSUE TRACKER
-            </Typography>
-            <ThemeModeButton aria-label="switch-mode" />
-            </Toolbar>
+          </Typography>
+          <ThemeModeButton aria-label="switch-mode" />
+        </Toolbar>
       </AppBar>
       <main>
         <Container sx={{ height: '100%', maxWidth: 'xl', my: 3 }}>

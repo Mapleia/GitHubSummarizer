@@ -23,10 +23,10 @@ export const { toggleTheme } = preferenceSlice.actions
 export const selectMode = (state: RootState) => state.theme.current
 export const selectTheme = (state: RootState) => {
   switch (state.theme.current) {
-    case 'light':
-      return lightTheme
-    default:
-      return darkTheme
+  case 'light':
+    return lightTheme
+  default:
+    return darkTheme
   }
 }
 

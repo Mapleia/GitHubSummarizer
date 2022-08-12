@@ -46,7 +46,7 @@ export function InputLink ({ label, activate, select, update, submit }: InputLin
         dispatch(activate(false))
       }}
       onChange={(e) => setInput(e.target.value)}
-      />
+    />
   )
 }
 
