@@ -11,7 +11,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - https://www.npmjs.com/package/@octokit/types
 - https://bareynol.github.io/mui-theme-creator
 
-# To Do List
+## To Do List
 
 - [x] User should be able to provide GitHub organization and repository to fetch issues
 - [x] Pagination is used to navigate between pages
@@ -30,19 +30,24 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Setup
 
 1. If you haven't already, install Node.js.
-2. Run
+2. If you haven't already, browser extensions like React Dev-Tools and Redux Dev-Tools is highly recommended.
+3. Run
    ```sh
      npm i
    ```
-3. Create a GitHub App to get GitHub API access, and download the private key.
-4. Convert the .pem key to a .key and fill in the .env variable with it's content ([explained why here](https://github.com/gr2m/universal-github-app-jwt)).
+4. Create private access token in GitHub -> Personal Settings -> Developer Settings.
+5. Set the key value to the environmental variable (see `.env.template`).
+5. Run the start command (`npm start`) to see the project in development mode.
+
+### Side notes
+Tried to authenticate this app with GitHub App credentials, not working at the moment.
+Steps needed to set it up to try it is below.
+1. Create a GitHub App to get GitHub API access, and download the private key.
+2. Convert the .pem key to a .key and fill in the .env variable with it's content ([explained why here](https://github.com/gr2m/universal-github-app-jwt)).
 
    ```sh
      openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in private-key.pem -out private-key-pkcs8.key
    ```
-
-5. Run the start command (`npm start`) to see the project in development mode.
-
 ## Library Notes
 
 - `MUI` (Material UI) was picked as the library for UI components.
