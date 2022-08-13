@@ -1,8 +1,14 @@
 # stage1 - build react app first
 FROM node:18-bullseye-slim as build
-ENV NODE_ENV production
+ARG PRIVATE_KEY=''
+
 WORKDIR /usr/app
+
+RUN echo "REACT_APP_GITHUB_KEY=$PRIVATE_KEY" > .env
+
 ENV PATH /usr/app/node_modules/.bin:$PATH
+ENV NODE_ENV production
+ENV REACT_APP_GITHUB_KEY $PRIVATE_KEY
 
 COPY package.json /usr/app/package.json
 COPY package-lock.json /usr/app/package-lock.json
