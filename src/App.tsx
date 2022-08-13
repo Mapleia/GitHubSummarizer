@@ -39,7 +39,7 @@ function App () {
 
   useEffect(() => {
     dispatch(fetchIssues(undefined))
-  }, [ready])
+  }, [ready, repo.payload, owner.payload])
 
   return (
     <ThemeProvider theme={theme}>
@@ -72,11 +72,11 @@ function App () {
       </AppBar>
       <main>
         <DetailModal />
-        <Snackbar
+        {error && <Snackbar
           open={!!error}
           message={error.message}
           onClose={() => dispatch(clearError())}
-        />
+        />}
         <Container sx={{ height: '100%', maxWidth: 'xl', my: 3 }}>
           <Breadcrumbs aria-label="breadcrumb">
             <Box sx={{ alignItems: 'flex-end', height: 'fit-content' }}>

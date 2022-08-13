@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { Markup } from 'interweave'
+
 import Avatar from '@mui/material/Avatar'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
@@ -23,9 +25,9 @@ export default function DetailModal () {
         onClose={() => dispatch(setOpen(false))}
       >
         <DialogTitle>#{issue.number}: {issue.title}</DialogTitle>
-        <DialogContent sx={{ flexDirection: 'row' }}>
+        <DialogContent sx={{ flexDirection: 'row', display: 'flex' }}>
           <Avatar alt={`avatar of ${issue.user.name}`} src={issue.user.avatar_url}/>
-          <DialogContentText >{issue.body}</DialogContentText>
+          <DialogContentText sx={{ ml: '10px' }}><Markup content={issue.body} /></DialogContentText>
         </DialogContent>
         <DialogActions>
           <Link underline="hover" href={issue.repository_url}>See Repository</Link>

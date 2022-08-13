@@ -28,13 +28,24 @@ export default function Table (props: TableProps) {
   const [selectionModel, setSelectionModel] = useState<GridSelectionModel>([])
 
   const columns: GridColDef<GitHubIssue>[] = [
-    { field: 'id', headerName: 'ID', flex: 0.2, sortable: true },
-    { field: 'number', headerName: 'Issue #', flex: 0.3, sortable: true },
+    { field: 'id', headerName: 'ID', flex: 0.25, sortable: true },
+    { field: 'number', headerName: 'Issue #', flex: 0.2, sortable: true },
+    {
+      field: 'repository_url',
+      headerName: 'Repo',
+      flex: 0.3,
+      sortable: true,
+      valueFormatter: (params: GridValueFormatterParams<string>) => {
+        const url = params.value
+        const splitArr = url.split('/')
+        return splitArr[splitArr.length - 1]
+      }
+    },
     {
       field: 'state',
       headerName: 'Status',
       sortable: true,
-      flex: 0.2,
+      flex: 0.22,
       renderCell: (params) => {
         switch (params.value) {
         case 'closed':
@@ -52,16 +63,13 @@ export default function Table (props: TableProps) {
     {
       field: 'details',
       headerName: 'See Details',
-      flex: 0.2,
+      flex: 0.24,
       renderCell: (params) => {
-        const id = params.id
-        const issue = props.rows.find((row) => row.id === id as number)
+        const issue = params.row
 
         return <Button onClick={() => {
-          if (issue) {
-            dispatch(setIssue(issue))
-            dispatch(setOpen(true))
-          }
+          dispatch(setIssue(issue))
+          dispatch(setOpen(true))
         }}>Details</Button>
       }
     },
@@ -69,7 +77,7 @@ export default function Table (props: TableProps) {
       field: 'updated_at',
       headerName: 'Last Updated',
       sortable: true,
-      flex: 0.3,
+      flex: 0.26,
       valueGetter: (params: GridValueGetterParams<any, GitHubIssue>) => new Date(params.row.updated_at),
       valueFormatter: (params: GridValueFormatterParams<Date>) => {
         return formatDate(params.value)
@@ -79,7 +87,7 @@ export default function Table (props: TableProps) {
       field: 'created_at',
       headerName: 'Created At',
       sortable: true,
-      flex: 0.3,
+      flex: 0.26,
       valueGetter: (params: GridValueGetterParams<any, GitHubIssue>) => new Date(params.row.created_at),
       valueFormatter: (params: GridValueFormatterParams<Date>) => {
         return formatDate(params.value)

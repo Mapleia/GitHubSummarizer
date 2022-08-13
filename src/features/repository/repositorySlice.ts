@@ -98,7 +98,7 @@ const repoSlice = createSlice({
       }
     },
     updateSelected: (state, action: PayloadAction<GitHubIssue[]>) => {
-      state.selected = filterObjSet(state.selected, action.payload, 'id')
+      state.selected = action.payload
     },
     clearError: (state) => {
       state.error = null

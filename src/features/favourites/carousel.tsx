@@ -17,7 +17,7 @@ export default function Carousel () {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (issues.length > 0 && active) {
+    if (issues.length > 0 && active !== undefined) {
       const issue = issues[active]
       dispatch(setIssue(issue))
       dispatch(setOpen(true))
@@ -30,7 +30,8 @@ export default function Carousel () {
       scrollButtons="auto"
       value={active}
       onChange={(event, newValue: number) => {
-        setActive(newValue)
+        if (issues.length === 0) setActive(undefined)
+        else setActive(newValue)
       }}
     >
       {issues.map((issue) => (
