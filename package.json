@@ -20,7 +20,7 @@
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "interweave": "^13.0.0",
-    "octokit": "^2.0.5",
+    "octokit": "^2.0.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.2",
